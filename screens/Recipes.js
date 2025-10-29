@@ -18,6 +18,17 @@ const [view, setView] = useState('');
             <TouchableOpacity onPress={() => navigation.navigate('Home')} style={style.button}>
                 <Text style={style.textButton}>Voltar</Text>
             </TouchableOpacity>
+
+            {(view === 'list') ? (
+                <View>
+
+                </View>
+            ):(
+                <View>
+
+                </View>
+            )}
+            
         </View>
     )
 }
