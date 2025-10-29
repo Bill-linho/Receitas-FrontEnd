@@ -21,14 +21,18 @@ const [view, setView] = useState('');
 
             {(view === 'list') ? (
                 <View>
-
+                    <TouchableOpacity style={style.button} onPress={() => setView('form')} >
+                        <Text style={style.textButton}>Adicionar Receita</Text>
+                    </TouchableOpacity>
                 </View>
             ):(
                 <View>
-
+                    <TouchableOpacity style={style.button} onPress={() => setView('list')} >
+                        <Text style={style.textButton}>Ver Receita</Text>
+                    </TouchableOpacity>
                 </View>
             )}
-            
+
         </View>
     )
 }
