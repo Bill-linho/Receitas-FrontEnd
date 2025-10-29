@@ -1,19 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack =createNativeStackNavigator()
+
+import Home from './screens/Home'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={{fontSize:200}}>Faz o L</Text>
+    <NavigationContainer>
+      <Stack.Navigator>
 
-    </View>
+        <Stack.Screen name="Home" component={Home} options={{title:'Inicio'}}/>
+        
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
