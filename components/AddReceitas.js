@@ -1,15 +1,42 @@
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { useState } from "react";
+import { Text, TouchableOpacity, View, StyleSheet,TextInput } from "react-native";
 
 export default function AddRecipes({navigation}) {
 
+    const [nome,setNome] = useState('')
+    const [ingredientes, setIngredientes] = useState('')
+    const [modoPreparo, setModoPrepardo] = useState('')
+
     function save() {
-        
+        const obj = {
+            nome,ingredientes,modoPreparo
+
+        }
     }
+
     return(
         <View style={style.container}>
             <Text style={style.title}>
                 Adicionar nova receita
             </Text>
+
+            <TextInput
+             value={nome}
+             onChangeText={setNome}
+             placeholder='Digite o nome'
+            />
+
+            <TextInput
+             value={ingredientes}
+             onChangeText={setIngredientes}
+             placeholder='Digite os ingredientes'
+            />
+
+            <TextInput
+             value={modoPreparo}
+             onChangeText={setModoPrepardo}
+             placeholder='Digite o modo de preparo'
+            />
 
             <TouchableOpacity onPress={() => save()} style={style.button}>
                 <Text style={style.textButton}>Salvar</Text>
