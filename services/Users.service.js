@@ -1,7 +1,7 @@
 const url = 'http://localhost:3000'
 
-export async function getRecipes() {
-    const request = `${url}/receitas`;
+export async function getUsers() {
+    const request = `${url}/usuarios`;
   
     try {
       const response = await fetch(request, { method: 'GET' });
@@ -13,11 +13,11 @@ export async function getRecipes() {
     }
   }
 
-export async function createRecipes(recipe) {
-  const request = `${url}/receitas`;
+export async function createUsers(user) {
+  const request = `${url}/usuarios`;
   
   try {
-    const response = await fetch(request, { method: 'POST', headers:{ 'Content-Type':'application/json'}, body: JSON.stringify(recipe) });
+    const response = await fetch(request, { method: 'POST', headers:{ 'Content-Type':'application/json'}, body: JSON.stringify(user) });
     const data = await response.json();
     return data.data;
   } catch (e) {

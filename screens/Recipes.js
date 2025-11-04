@@ -2,6 +2,7 @@ import { useState , useEffect } from "react";
 import { Text, TouchableOpacity, View, StyleSheet, FlatList, ScrollView } from "react-native";
 import AddRecipes from "../components/AddReceitas";
 import { getRecipes } from "../services/Recipes.service";
+import { createRecipes } from "../services/Recipes.service";
 
 
 const dados_fake = [
