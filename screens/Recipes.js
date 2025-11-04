@@ -6,14 +6,16 @@ import { getRecipes } from "../services/Recipes.service";
 
 const dados_fake = [
     {
-        id: 1, nome: 'Bolo de banana',
+        id: 1, 
+        receita: 'Bolo de banana',
         modo_preparo: 'Mistura',
         ingredientes: 'Banana, caramelo, trigo e ovo',
         usuario_id: 1,
         categoria_id: 1
     },
     {
-        id: 2, nome: 'Bolo de morango',
+        id: 2, 
+        receita: 'Bolo de morango',
         modo_preparo: 'Mistura',
         ingredientes: 'Morango, trigo e ovo',
         usuario_id: 1,
@@ -43,7 +45,7 @@ export default function Receitas({ navigation }) {
                 </Text>
                 
                 <Text style={style.cardItem}>
-                    {item.nome}
+                    {item.receita}
                 </Text>
 
                 <Text style={style.textButton}>
