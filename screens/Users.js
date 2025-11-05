@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { TouchableOpacity, View, Text, FlatList, ScrollView } from "react-native";
 import { StyleSheet } from "react-native";
 import { getUsers } from "../services/Users.service";
+import AddUsers from "../components/AddUsers";
 
 export default function Users({navigation}) {
     const [view, setView] = useState('list')
@@ -73,10 +74,10 @@ export default function Users({navigation}) {
             ) : (
                 <View>
                     <TouchableOpacity style={style.button} onPress={() => setView('list')}>
-                        <Text style={style.textButton}>VER Receitas</Text>
+                        <Text style={style.textButton}>VER Usuarios</Text>
                     </TouchableOpacity>
 
-                    <AddRecipes></AddRecipes>
+                    <AddUsers></AddUsers>
                 </View>
             )}
         </ScrollView>
