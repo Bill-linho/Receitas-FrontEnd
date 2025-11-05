@@ -1,14 +1,19 @@
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+
 
 export default function Home({navigation}) {
-    return(
+    return (
         <View style={style.container}>
             <Text style={style.title}>
                 Bem vindo!
             </Text>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Recipes')} style={style.button}>
-                <Text style={style.textButton}>Ver Receitas</Text>
+            <TouchableOpacity 
+            style={style.button}
+            onPress={() => navigation.navigate('Recipes')}>
+                <Text style={style.textButton}>
+                    Ver Receitas
+                </Text>
             </TouchableOpacity>
         </View>
     )
@@ -16,26 +21,26 @@ export default function Home({navigation}) {
 
 const style = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 28
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20
     },
     title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
-      color:'#FF0000',
-      textAlign: 'center'
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        color: '#FF0000',
+        textAlign: 'center'
     },
-    button:{
+    button: {
         backgroundColor: '#000',
         color: '#FFF',
         padding: 15,
         borderRadius: 10
     },
     textButton: {
-        color: '#FFF',
+        color: '#fff',
         fontWeight: 'bold'
     }
-  })
+})

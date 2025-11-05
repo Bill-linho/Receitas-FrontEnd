@@ -1,40 +1,43 @@
 import { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View, StyleSheet, TextInput, Picker } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { Picker, TextInput } from "react-native";
 import { getUsers } from "../services/Users.service";
 import { getCategories } from "../services/Category.service";
 
-export default function AddRecipes({ navigation }) {
-
+export default function AddRecipes() {
     const [nome, setNome] = useState('')
     const [ingredientes, setIngredientes] = useState('')
-    const [modoPreparo, setModoPrepardo] = useState('')
-    const [porcoes, setPocoes] = useState('')
+    const [modoPreparo, setModoPreparo] = useState('')
+    const [porcoes, setPorcoes] = useState('')
     const [tempoPreparoMinutos, setTempoPreparoMinutos] = useState('')
-    const [categoria, setCategoria] = useState([])
-    const [users, setUsers] = useState([]) 
+    const [categories, setCategories] = useState([]);
+    const [users, setUsers] = useState([]);
     const [userId, setUserId] = useState('')
-    const [categoId, setCategoriesId] = useState('')
+    const [categoryId, setCategoryId] = useState('')
 
     useEffect(() => {
-        loadusers()
-        loadCategory()
-    },[])
+        loadUsers()
+        loadCategories()
+    }, [])
 
-    async function  loadusers() {
+    async function loadUsers() {
         const data = await getUsers()
+        console.log('DATA',data);
+        
         setUsers(data)
     }
 
-    async function  loadCategory() {
+    async function loadCategories() {
         const data = await getCategories()
-        setCategoria(data)
+        setCategories(data)
     }
 
     function save() {
         const obj = {
             nome, ingredientes, modoPreparo
-
         }
+        console.log(obj);
+        
     }
 
     return (
@@ -46,67 +49,68 @@ export default function AddRecipes({ navigation }) {
             <TextInput
                 value={nome}
                 onChangeText={setNome}
-                placeholder='Digite o nome'
+                placeholder="Digite o nome.."
             />
-
             <TextInput
                 value={ingredientes}
                 onChangeText={setIngredientes}
-                placeholder='Digite os ingredientes'
+                placeholder="Digite os ingrediêntes.."
             />
-
             <TextInput
                 value={modoPreparo}
-                onChangeText={setModoPrepardo}
-                placeholder='Digite o modo de preparo'
+                onChangeText={setModoPreparo}
+                placeholder="Digite o modo de preparo.."
             />
 
             <TextInput
                 value={porcoes}
-                onChangeText={setPocoes}
-                placeholder='Digite quantidade de porções'
+                onChangeText={setPorcoes}
+                placeholder="Digite a quantidade de Porções.."
             />
 
             <TextInput
                 value={tempoPreparoMinutos}
                 onChangeText={setTempoPreparoMinutos}
-                placeholder='Digite o tempo de preparo'
+                placeholder="Digite o tempo de preparo em minutos.."
             />
 
-            <Picker 
+            <Picker
                 selectedValue={userId}
                 onValueChange={(item) => setUserId(item)}
             >
                 <Picker.Item label="Selecione o Usuario" value=""/>
-
-                {users.map((user)=>(
-                 <Picker.Item
-                    key={user.id}
-                    label={user.nome}
-                    value={user.id.toString()}
-                 />              
+                {users.map((user) => (
+                    <Picker.Item
+                        key={user.id}
+                        label={user.nome}
+                        value={user.id.toString()}
+                    />
                 ))}
-
+               
             </Picker>
 
-            <Picker 
-                selectedValue={categoId}
-                onValueChange={(item) => setCategoriesId(item)}
+            <Picker
+                selectedValue={categoryId}
+                onValueChange={(item) => setCategoryId(item)}
             >
-                <Picker.Item label="Selecione o Categoria" value=""/>
-
-                {categoria.map((catego)=>(
-                 <Picker.Item
-                    key={catego.id}
-                    label={catego.nome}
-                    value={catego.id.toString()}
-                 />              
+                <Picker.Item label="Selecione a Categoria" value=""/>
+                {categories.map((category) => (
+                    <Picker.Item
+                        key={category.id}
+                        label={category.nome}
+                        value={category.id.toString()}
+                    />
                 ))}
-
+               
             </Picker>
 
-            <TouchableOpacity onPress={() => save()} style={style.button}>
-                <Text style={style.textButton}>Salvar</Text>
+            <TouchableOpacity 
+                style={style.button}
+                onPress={() => save()}>
+
+                <Text style={style.textButton}>
+                    Salvar
+                </Text>
             </TouchableOpacity>
         </View>
     )
@@ -117,7 +121,7 @@ const style = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 28
+        padding: 20
     },
     title: {
         fontSize: 24,
@@ -133,7 +137,7 @@ const style = StyleSheet.create({
         borderRadius: 10
     },
     textButton: {
-        color: '#FFF',
+        color: '#fff',
         fontWeight: 'bold'
     }
 })
