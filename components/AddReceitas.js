@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View, StyleSheet, TextInput } from "react-native";
+import { Text, TouchableOpacity, View, StyleSheet, TextInput, Picker } from "react-native";
 import { getUsers } from "../services/Users.service";
+import { getCategories } from "../services/Category.service";
 
 export default function AddRecipes({ navigation }) {
 
@@ -11,13 +12,22 @@ export default function AddRecipes({ navigation }) {
     const [tempoPreparoMinutos, setTempoPreparoMinutos] = useState('')
     const [categoria, setCategoria] = useState([])
     const [users, setUsers] = useState([]) 
+    const [userId, setUserId] = useState('')
+    const [categoId, setCategoriesId] = useState('')
 
     useEffect(() => {
         loadusers()
+        loadCategory()
     },[])
 
     async function  loadusers() {
-        const data = await getUsers
+        const data = await getUsers()
+        setUsers(data)
+    }
+
+    async function  loadCategory() {
+        const data = await getCategories()
+        setCategoria(data)
     }
 
     function save() {
@@ -62,6 +72,38 @@ export default function AddRecipes({ navigation }) {
                 onChangeText={setTempoPreparoMinutos}
                 placeholder='Digite o tempo de preparo'
             />
+
+            <Picker 
+                selectedValue={userId}
+                onValueChange={(item) => setUserId(item)}
+            >
+                <Picker.Item label="Selecione o Usuario" value=""/>
+
+                {users.map((user)=>(
+                 <Picker.Item
+                    key={user.id}
+                    label={user.nome}
+                    value={user.id.toString()}
+                 />              
+                ))}
+
+            </Picker>
+
+            <Picker 
+                selectedValue={categoId}
+                onValueChange={(item) => setCategoriesId(item)}
+            >
+                <Picker.Item label="Selecione o Categoria" value=""/>
+
+                {categoria.map((catego)=>(
+                 <Picker.Item
+                    key={catego.id}
+                    label={catego.nome}
+                    value={catego.id.toString()}
+                 />              
+                ))}
+
+            </Picker>
 
             <TouchableOpacity onPress={() => save()} style={style.button}>
                 <Text style={style.textButton}>Salvar</Text>
