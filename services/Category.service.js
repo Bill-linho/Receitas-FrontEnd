@@ -7,7 +7,7 @@ export async function getCategories() {
             method: 'GET'
         })
         const data = await response.json()
-        return data
+        return data.data
     } catch (e) {
 
     }

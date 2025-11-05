@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Picker, TextInput } from "react-native";
 import { getUsers } from "../services/Users.service";
 import { getCategories } from "../services/Category.service";
+import { createRecipe } from "../services/Recipes.service";
 
 export default function AddRecipes() {
     const [nome, setNome] = useState('')
@@ -32,12 +33,35 @@ export default function AddRecipes() {
         setCategories(data)
     }
 
-    function save() {
+    async function save() {
         const obj = {
-            nome, ingredientes, modoPreparo
+            nome, 
+            ingredientes,
+            modo_preparo: modoPreparo,
+            porcoes: parseInt(porcoes),
+            tempo_preparo_minutos: parseInt(tempoPreparoMinutos),
+            usuario_id: parseInt(userId),
+            categoria_id: parseInt(categoryId)
         }
-        console.log(obj);
+
+        console.log(response);
+        try {
+            clearForm()
+            const response = await createRecipe(obj)
+        } catch {
+            
+        }
         
+    }
+
+    function clearForm() {
+        setNome('')
+        setCategoryId('')
+        setUserId('')
+        setModoPreparo('')
+        setTempoPreparoMinutos('')
+        setPorcoes('')
+        setIngredientes('')
     }
 
     return (
@@ -106,7 +130,7 @@ export default function AddRecipes() {
 
             <TouchableOpacity 
                 style={style.button}
-                onPress={() => save()}>
+                onPress={save}>
 
                 <Text style={style.textButton}>
                     Salvar
