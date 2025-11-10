@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Picker, TextInput } from "react-native";
-import { createCategory } from "../services/Category.service";
+import { createCategory, updateCategory } from "../services/Category.service";
 
 export default function AddCategory({categoryToEdit}) {
     const [nome, setNome] = useState('')
@@ -24,7 +24,12 @@ export default function AddCategory({categoryToEdit}) {
 
         try {
             clearForm()
-            const response = await createCategory(obj)
+            if(editingId){
+
+                const response = await updateCategory(editingId,obj)
+            }else{
+                const response = await createCategory(obj)
+            }
         } catch {
             
         }
