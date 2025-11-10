@@ -65,7 +65,7 @@ export default function Categories({navigation}) {
                 <View>
                     <TouchableOpacity style={style.button} onPress={() => {
                             setView('list')
-                            loadCategories()
+                            setSelectedCategory(null)
                         }}>
                         <Text style={style.textButton}>VER Categorias</Text>
                     </TouchableOpacity>

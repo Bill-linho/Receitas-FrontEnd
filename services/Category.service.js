@@ -13,8 +13,8 @@ export async function getCategories() {
     }
 }
 
-export async function createCategory(id,category) {
-    const request = `${url}/categorias/${id}`;
+export async function createCategory(category) {
+    const request = `${url}/categorias`;
     try {
         const response = await fetch(request, {
             method: 'POST',
@@ -32,7 +32,7 @@ export async function createCategory(id,category) {
 }
 
 export async function updateCategory(id, category) {
-    const request = `${url}/categorias/`
+    const request = `${url}/categorias/${id}`
 
     try{
         const response = await fetch(request, {
