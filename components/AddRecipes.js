@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Picker, TextInput } from "react-native";
 import { getUsers } from "../services/Users.service";
-import { getCategories } from "../services/Category.service";
-import { createRecipe } from "../services/Recipes.service";
+import { getCategories, updateCategory } from "../services/Category.service";
+import { createRecipe, updateRecipe } from "../services/Recipes.service";
+import Recipes from "../screens/Recipes";
 
-export default function AddRecipes() {
+export default function AddRecipes({ RecipesToEdit }) {
     const [nome, setNome] = useState('')
     const [ingredientes, setIngredientes] = useState('')
     const [modoPreparo, setModoPreparo] = useState('')
@@ -15,16 +16,32 @@ export default function AddRecipes() {
     const [users, setUsers] = useState([]);
     const [userId, setUserId] = useState('')
     const [categoryId, setCategoryId] = useState('')
+    const [editingId, setEditingId] = useState()
 
     useEffect(() => {
-        loadUsers()
-        loadCategories()
-    }, [])
+        console.log('RecipeToEdit', RecipesToEdit)
+        if (RecipesToEdit) {
+            setNome(RecipesToEdit.nome)
+            setIngredientes(RecipesToEdit.ingredientes)
+            setModoPreparo(RecipesToEdit.modo_preparo)
+            setPorcoes(RecipesToEdit.porcoes)
+            setTempoPreparoMinutos(RecipesToEdit.tempo_preparo_minutos)
+            setUserId(RecipesToEdit.usuario_id)
+            setCategoryId(RecipesToEdit.categoria_id)
+            setEditingId(RecipesToEdit.id)
+        
+            loadUsers()
+            loadCategories()
+        } else {
+            clearForm()
+        }
+
+    }, [RecipesToEdit])
 
     async function loadUsers() {
         const data = await getUsers()
-        console.log('DATA',data);
-        
+        console.log('DATA', data);
+
         setUsers(data)
     }
 
@@ -35,7 +52,7 @@ export default function AddRecipes() {
 
     async function save() {
         const obj = {
-            nome, 
+            nome,
             ingredientes,
             modo_preparo: modoPreparo,
             porcoes: parseInt(porcoes),
@@ -44,15 +61,20 @@ export default function AddRecipes() {
             categoria_id: parseInt(categoryId)
         }
 
-        console.log(response);
         try {
+            let response;
+
+            if (editingId) {
+                response = await updateRecipe(editingId, obj)
+            } else {
+                response = await createRecipe(obj)
+            }
             clearForm()
-            const response = await createRecipe(obj)
-        } catch {
-            
+        } catch (error) {
+            console.error("Erro ao salvar receita:", error)
         }
-        
     }
+
 
     function clearForm() {
         setNome('')
@@ -102,7 +124,7 @@ export default function AddRecipes() {
                 selectedValue={userId}
                 onValueChange={(item) => setUserId(item)}
             >
-                <Picker.Item label="Selecione o Usuario" value=""/>
+                <Picker.Item label="Selecione o Usuario" value="" />
                 {users.map((user) => (
                     <Picker.Item
                         key={user.id}
@@ -110,14 +132,14 @@ export default function AddRecipes() {
                         value={user.id.toString()}
                     />
                 ))}
-               
+
             </Picker>
 
             <Picker
                 selectedValue={categoryId}
                 onValueChange={(item) => setCategoryId(item)}
             >
-                <Picker.Item label="Selecione a Categoria" value=""/>
+                <Picker.Item label="Selecione a Categoria" value="" />
                 {categories.map((category) => (
                     <Picker.Item
                         key={category.id}
@@ -125,10 +147,10 @@ export default function AddRecipes() {
                         value={category.id.toString()}
                     />
                 ))}
-               
+
             </Picker>
 
-            <TouchableOpacity 
+            <TouchableOpacity
                 style={style.button}
                 onPress={save}>
 

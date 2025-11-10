@@ -4,10 +4,10 @@ import { StyleSheet } from "react-native";
 import { getCategories } from "../services/Category.service";
 import AddCategory from "../components/AddCategory";
 
-export default function Categories({navigation}) {
+export default function Categories({ navigation }) {
     const [view, setView] = useState('list')
     const [categories, setCategories] = useState([])
-    const [selectedCategory,setSelectedCategory] = useState()
+    const [selectedCategory, setSelectedCategory] = useState()
 
     const loadCategories = async () => {
         const data = await getCategories()
@@ -18,7 +18,7 @@ export default function Categories({navigation}) {
         loadCategories()
     }, [])
 
-    const renderItem = ( { item } ) => {
+    const renderItem = ({ item }) => {
         console.log(item)
         return (
             <View style={style.card}>
@@ -64,10 +64,10 @@ export default function Categories({navigation}) {
             ) : (
                 <View>
                     <TouchableOpacity style={style.button} onPress={() => {
-                            setView('list')
-                            setSelectedCategory(null)
-                            loadCategories()
-                        }}>
+                        setView('list')
+                        setSelectedCategory(null)
+                        loadCategories()
+                    }}>
                         <Text style={style.textButton}>VER Categorias</Text>
                     </TouchableOpacity>
 

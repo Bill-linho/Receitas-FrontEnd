@@ -30,3 +30,23 @@ export async function createRecipe(recipe) {
 
     }
 }
+
+export async function updateRecipe(id, recipe) {
+    const request = `${url}/receitas/${id}`
+
+    try {
+        const response = await fetch(request, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(recipe)
+        })
+
+        const data = await response.json()
+        return data
+    } catch (e) {
+
+    }
+
+}

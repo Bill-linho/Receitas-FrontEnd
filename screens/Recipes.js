@@ -5,9 +5,10 @@ import { StyleSheet } from "react-native";
 import AddRecipes from '../components/AddRecipes'
 import { getRecipes } from "../services/Recipes.service";
 
-export default function Recipes({navigation}) {
+export default function Recipes({ navigation }) {
     const [view, setView] = useState('list')
     const [recipes, setRecipes] = useState([])
+    const [selectedRecipes, setSelectedRecipes] = useState()
 
     const loadRecipes = async () => {
         const data = await getRecipes()
@@ -18,7 +19,7 @@ export default function Recipes({navigation}) {
         loadRecipes()
     }, [])
 
-    const renderItem = ( { item } ) => {
+    const renderItem = ({ item }) => {
         console.log(item)
         return (
             <View style={style.card}>
@@ -41,7 +42,10 @@ export default function Recipes({navigation}) {
                     {item.modo_preparo}
                 </Text>
 
-                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={style.button} onPress={() => {
+                    setView('form')
+                    setSelectedRecipes(item)
+                }}>
                     <Text style={style.textButton}>Editar</Text>
                 </TouchableOpacity>
 
@@ -75,11 +79,15 @@ export default function Recipes({navigation}) {
                 </View>
             ) : (
                 <View>
-                    <TouchableOpacity style={style.button} onPress={() => setView('list')}>
+                    <TouchableOpacity style={style.button} onPress={() => {
+                        setView('list'),
+                            setSelectedRecipes(null)
+                        loadRecipes()
+                    }}>
                         <Text style={style.textButton}>VER Receitas</Text>
                     </TouchableOpacity>
 
-                    <AddRecipes></AddRecipes>
+                    <AddRecipes RecipesToEdit={selectedRecipes}></AddRecipes>
                 </View>
             )}
         </ScrollView>

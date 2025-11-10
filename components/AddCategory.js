@@ -3,19 +3,19 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Picker, TextInput } from "react-native";
 import { createCategory, updateCategory } from "../services/Category.service";
 
-export default function AddCategory({categoryToEdit}) {
+export default function AddCategory({ categoryToEdit }) {
     const [nome, setNome] = useState('')
     const [editingId, setEditingId] = useState()
 
     useEffect(() => {
-        console.log('categoryToEdit',categoryToEdit)
-        if(categoryToEdit){
-        setNome(categoryToEdit.nome)
-        setEditingId(categoryToEdit.id)
-        }else{
+        console.log('categoryToEdit', categoryToEdit)
+        if (categoryToEdit) {
+            setNome(categoryToEdit.nome)
+            setEditingId(categoryToEdit.id)
+        } else {
             clearForm()
         }
-    },[categoryToEdit])
+    }, [categoryToEdit])
 
     async function save() {
         const obj = {
@@ -24,16 +24,16 @@ export default function AddCategory({categoryToEdit}) {
 
         try {
             clearForm()
-            if(editingId){
+            if (editingId) {
 
-                const response = await updateCategory(editingId,obj)
-            }else{
+                const response = await updateCategory(editingId, obj)
+            } else {
                 const response = await createCategory(obj)
             }
         } catch {
-            
+
         }
-        
+
     }
 
     function clearForm() {
@@ -52,7 +52,7 @@ export default function AddCategory({categoryToEdit}) {
                 placeholder="Digite o nome.."
             />
 
-            <TouchableOpacity 
+            <TouchableOpacity
                 style={style.button}
                 onPress={save}>
 
