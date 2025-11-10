@@ -7,6 +7,7 @@ import AddCategory from "../components/AddCategory";
 export default function Categories({navigation}) {
     const [view, setView] = useState('list')
     const [categories, setCategories] = useState([])
+    const [selectedCategory,setSelectedCategory] = useState()
 
     const loadCategories = async () => {
         const data = await getCategories()
@@ -28,7 +29,10 @@ export default function Categories({navigation}) {
                     {item.nome}
                 </Text>
 
-                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={style.button} onPress={() => {
+                    setView('form')
+                    setSelectedCategory(item)
+                }}>
                     <Text style={style.textButton}>Editar</Text>
                 </TouchableOpacity>
 
@@ -66,7 +70,7 @@ export default function Categories({navigation}) {
                         <Text style={style.textButton}>VER Categorias</Text>
                     </TouchableOpacity>
 
-                    <AddCategory></AddCategory>
+                    <AddCategory categoryToEdit={selectedCategory}></AddCategory>
                 </View>
             )}
         </ScrollView>

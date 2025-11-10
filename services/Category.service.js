@@ -13,8 +13,8 @@ export async function getCategories() {
     }
 }
 
-export async function createCategory(category) {
-    const request = `${url}/categorias`;
+export async function createCategory(id,category) {
+    const request = `${url}/categorias/${id}`;
     try {
         const response = await fetch(request, {
             method: 'POST',
@@ -29,4 +29,24 @@ export async function createCategory(category) {
     } catch (e) {
 
     }
+}
+
+export async function updateCategory(id, category) {
+    const request = `${url}/categorias/`
+
+    try{
+        const response = await fetch(request, {
+            method: 'PUT',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify(category)
+        })
+
+        const data = await response.json()
+        return data
+    }catch(e){
+
+    }
+    
 }
