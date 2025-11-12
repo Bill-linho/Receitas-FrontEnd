@@ -1,132 +1,93 @@
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Picker, TextInput } from "react-native";
-import { getUsers } from "../services/Users.service";
+import { createUser, getUsers, updateUser } from "../services/Users.service";
 import { getCategories } from "../services/Category.service";
 import { createRecipe } from "../services/Recipes.service";
 
-export default function AddUsers() {
-    const [nome, setNome] = useState('')
-    const [ingredientes, setIngredientes] = useState('')
-    const [modoPreparo, setModoPreparo] = useState('')
-    const [porcoes, setPorcoes] = useState('')
-    const [tempoPreparoMinutos, setTempoPreparoMinutos] = useState('')
-    const [categories, setCategories] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [userId, setUserId] = useState('')
-    const [categoryId, setCategoryId] = useState('')
+// "nome": "João",
+// "senha": "123",
+// "email": "marcos@gmail.com",
+// "telefone": "(48) 9 9999-9999"
+
+export default function AddUsers({UserToEdit}) {
+    const [nome,setNome] = useState('')
+    const [senha,setSenha] = useState('')
+    const [email,setEmail] = useState('')
+    const [telefone,setTelefone] = useState('')
+    const [editingId, setEditingId] = useState()
+
 
     useEffect(() => {
-        loadUsers()
-        loadCategories()
-    }, [])
-
-    async function loadUsers() {
-        const data = await getUsers()
-        console.log('DATA',data);
-        
-        setUsers(data)
-    }
-
-    async function loadCategories() {
-        const data = await getCategories()
-        setCategories(data)
-    }
+        if(UserToEdit){
+            setNome(UserToEdit.nome)
+            setSenha(UserToEdit.senha)
+            setEmail(UserToEdit.email)
+            setTelefone(UserToEdit.telefone)
+            setEditingId(UserToEdit.id)
+        }else{
+            clearForm()
+        }
+    }, [UserToEdit])
 
     async function save() {
         const obj = {
             nome, 
-            ingredientes,
-            modo_preparo: modoPreparo,
-            porcoes: parseInt(porcoes),
-            tempo_preparo_minutos: parseInt(tempoPreparoMinutos),
-            usuario_id: parseInt(userId),
-            categoria_id: parseInt(categoryId)
+            senha,
+            email,
+            telefone,
+            ativo:true
         }
 
-        console.log(response);
         try {
-            clearForm()
-            const response = await createRecipe(obj)
-        } catch {
-            
-        }
+              clearForm()
+              if (editingId) {
+  
+                  const response = await updateUser(editingId, obj)
+              } else {
+                  const response = await createUser(obj)
+              }
+          } catch {
+  
+          }
         
     }
+    
 
     function clearForm() {
         setNome('')
-        setCategoryId('')
-        setUserId('')
-        setModoPreparo('')
-        setTempoPreparoMinutos('')
-        setPorcoes('')
-        setIngredientes('')
+        setSenha('')
+        setEmail('')
+        setTelefone('')
     }
 
     return (
         <View style={style.container}>
             <Text style={style.title}>
-                Adicionar nova receita
+                Adicionar o Usuario
             </Text>
 
             <TextInput
                 value={nome}
                 onChangeText={setNome}
-                placeholder="Digite o nome.."
+                placeholder="Digite seu nome..."
             />
             <TextInput
-                value={ingredientes}
-                onChangeText={setIngredientes}
-                placeholder="Digite os ingrediêntes.."
+                value={senha}
+                onChangeText={setSenha}
+                placeholder="Digite sua senha..."
             />
             <TextInput
-                value={modoPreparo}
-                onChangeText={setModoPreparo}
-                placeholder="Digite o modo de preparo.."
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Digite o seu e-mail..."
             />
 
             <TextInput
-                value={porcoes}
-                onChangeText={setPorcoes}
-                placeholder="Digite a quantidade de Porções.."
+                value={telefone}
+                onChangeText={setTelefone}
+                placeholder="Digite o telefone..."
             />
-
-            <TextInput
-                value={tempoPreparoMinutos}
-                onChangeText={setTempoPreparoMinutos}
-                placeholder="Digite o tempo de preparo em minutos.."
-            />
-
-            <Picker
-                selectedValue={userId}
-                onValueChange={(item) => setUserId(item)}
-            >
-                <Picker.Item label="Selecione o Usuario" value=""/>
-                {users.map((user) => (
-                    <Picker.Item
-                        key={user.id}
-                        label={user.nome}
-                        value={user.id.toString()}
-                    />
-                ))}
-               
-            </Picker>
-
-            <Picker
-                selectedValue={categoryId}
-                onValueChange={(item) => setCategoryId(item)}
-            >
-                <Picker.Item label="Selecione a Categoria" value=""/>
-                {categories.map((category) => (
-                    <Picker.Item
-                        key={category.id}
-                        label={category.nome}
-                        value={category.id.toString()}
-                    />
-                ))}
-               
-            </Picker>
 
             <TouchableOpacity 
                 style={style.button}
@@ -135,6 +96,7 @@ export default function AddUsers() {
                 <Text style={style.textButton}>
                     Salvar
                 </Text>
+
             </TouchableOpacity>
         </View>
     )

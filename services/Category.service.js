@@ -50,3 +50,17 @@ export async function updateCategory(id, category) {
     }
 
 }
+
+export async function deleteCategorie(id) {
+    const request = `${url}/usuarios/${id}`;
+    try {
+        const response = await fetch(request, {
+            method: 'DELETE'
+        })
+        const data = await response.json()
+        return data
+
+    } catch (e) {
+
+    }
+}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TouchableOpacity, View, Text, FlatList, ScrollView } from "react-native";
+import { TouchableOpacity, View, Text, FlatList, ScrollView, Modal } from "react-native";
 import { StyleSheet } from "react-native";
 import { getUsers } from "../services/Users.service";
 import AddUsers from "../components/AddUsers";
@@ -7,6 +7,7 @@ import AddUsers from "../components/AddUsers";
 export default function Users({navigation}) {
     const [view, setView] = useState('list')
     const [users, setUsers] = useState([])
+    const [selectedUser, setSelectedUser] = useState()
 
     const loadUsers = async () => {
         const data = await getUsers()
@@ -42,11 +43,16 @@ export default function Users({navigation}) {
                     {item.telefone}
                 </Text>
 
-                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={style.button} onPress={() => {
+                    setView('form')
+                    setSelectedUser(item)
+                }}>
                     <Text style={style.textButton}>Editar</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={style.button} onPress={() => {
+
+                }}>
                     <Text style={style.textButton}>Deletar</Text>
                 </TouchableOpacity>
 
@@ -73,11 +79,15 @@ export default function Users({navigation}) {
                 </View>
             ) : (
                 <View>
-                    <TouchableOpacity style={style.button} onPress={() => setView('list')}>
+                    <TouchableOpacity style={style.button} onPress={() => {
+                        setView('list'),
+                        setSelectedUser(null)
+                        loadUsers()
+                    }}>
                         <Text style={style.textButton}>VER Usuarios</Text>
                     </TouchableOpacity>
 
-                    <AddUsers></AddUsers>
+                    <AddUsers UserToEdit={selectedUser}></AddUsers>
                 </View>
             )}
         </ScrollView>
