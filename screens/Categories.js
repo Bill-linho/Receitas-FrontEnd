@@ -175,12 +175,12 @@ const style = StyleSheet.create({
         width: '100%'
     },
     confirmButton: {
-        backgroundColor: '#203',
+        backgroundColor: '#555',
         padding: 15,
         borderRadius: 10
     },
     closeButton: {
-        backgroundColor: '#634',
+        backgroundColor: '#555',
         padding: 15,
         borderRadius: 10
     },

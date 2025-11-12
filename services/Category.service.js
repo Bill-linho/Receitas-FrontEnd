@@ -52,7 +52,7 @@ export async function updateCategory(id, category) {
 }
 
 export async function deleteCategorie(id) {
-    const request = `${url}/usuarios/${id}`;
+    const request = `${url}/categorias/${id}`;
     try {
         const response = await fetch(request, {
             method: 'DELETE'
